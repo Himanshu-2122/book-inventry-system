@@ -1,0 +1,12 @@
+{% include "base.html" %}
+{% block content %}
+<h2 class="mb-4">Return Book: {{ transaction.book.title }}</h2>
+<p>Borrowed Date: {{ transaction.borrowed_date }}</p>
+<p>Due Date: {{ transaction.due_date }}</p>
+<form method="POST">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-success">Return Book</button>
+    <a href="{% url 'my_borrowed_books' %}" class="btn btn-secondary">Back</a>
+</form>
+{% endblock %}
+{% include "base.html" %}

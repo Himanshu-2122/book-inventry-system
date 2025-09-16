@@ -1,0 +1,14 @@
+{% {% include "base.html" %}%}
+{% block content %}
+<h2 class="mb-4">Borrow Book: {{ book.title }}</h2>
+<p>Available Copies: {{ book.available_copies }}</p>
+<form method="POST" class="row g-3">
+    {% csrf_token %}
+    <div class="col-md-3"><input type="number" name="due_days" class="form-control" placeholder="Due Days" value="7" min="1"></div>
+    <div class="col-md-9">
+        <button type="submit" class="btn btn-primary">Borrow</button>
+        <a href="{% url 'book_list' %}" class="btn btn-secondary">Back</a>
+    </div>
+</form>
+{% endblock %}
+{% {% include "base.html" %}%}
