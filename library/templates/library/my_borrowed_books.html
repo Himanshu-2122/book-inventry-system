@@ -1,25 +1,57 @@
 {% include "base.html" %}
 {% block content %}
-<h2 class="mb-4">My Borrowed Books</h2>
-<table class="table table-striped table-bordered">
-    <thead class="table-dark">
-        <tr>
-            <th>Book</th><th>Borrowed Date</th><th>Due Date</th><th>Action</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for txn in transactions %}
-        <tr>
-            <td>{{ txn.book.title }}</td>
-            <td>{{ txn.borrowed_date }}</td>
-            <td>{{ txn.due_date }}</td>
-            <td><a href="{% url 'return_book' txn.id %}" class="btn btn-sm btn-success">Return</a></td>
-        </tr>
-        {% empty %}
-        <tr><td colspan="4" class="text-center">No borrowed books.</td></tr>
-        {% endfor %}
-    </tbody>
-</table>
-<a href="{% url 'book_list' %}" class="btn btn-secondary">Back to Book List</a>
+
+<div class="container my-5">
+    <div class="card shadow-lg border-0 rounded-3">
+        <div class="card-header bg-primary text-white text-center py-3">
+            <h3 class="mb-0">📚 My Borrowed Books</h3>
+        </div>
+        <div class="card-body">
+            <table class="table table-hover align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col">Book</th>
+                        <th scope="col">Borrowed Date</th>
+                        <th scope="col">Due Date</th>
+                        <th scope="col" class="text-center">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for txn in transactions %}
+                    <tr>
+                        <td><strong>{{ txn.book.title }}</strong></td>
+                        <td>{{ txn.borrowed_date }}</td>
+                        <td>
+                            {% if txn.due_date < today %}
+                                <span class="badge bg-danger">Overdue: {{ txn.due_date }}</span>
+                            {% else %}
+                                <span class="badge bg-success">{{ txn.due_date }}</span>
+                            {% endif %}
+                        </td>
+                        <td class="text-center">
+                            <a href="{% url 'return_book' txn.id %}" class="btn btn-sm btn-outline-success px-3">
+                                ✅ Return
+                            </a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" class="text-center text-muted">
+                            <em>No borrowed books.</em>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="d-flex justify-content-end">
+                <a href="{% url 'book_list' %}" class="btn btn-outline-secondary px-4">
+                    ⬅ Back to Book List
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
 {% endblock %}
-{% include "base.html" %}
+

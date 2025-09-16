@@ -1,0 +1,59 @@
+{% include "base.html" %}
+{% block content %}
+<div class="container mt-5">
+  <h2 class="mb-4 text-center">👤 User Profile</h2>
+
+  <!-- Profile Card -->
+  <div class="card shadow-lg border-0 rounded-3">
+    <div class="card-body text-center">
+      <h4 class="card-title mb-3">
+        Welcome, <span class="text-primary fw-bold">{{ user.first_name }} {{ user.last_name }}</span>
+      </h4>
+      <p class="card-text mb-1"><strong>Email:</strong> {{ user.username }}</p>
+      <hr>
+    </div>
+  </div>
+
+  <!-- Books Section -->
+  <div class="row mt-4">
+    <!-- My Added Books -->
+    <div class="col-lg-6 mb-4">
+      <div class="card h-100 shadow-sm border-0 rounded-3">
+        <div class="card-header bg-dark text-white">
+          <h5 class="mb-0">📚 My Added Books</h5>
+        </div>
+        <ul class="list-group list-group-flush">
+          {% for book in my_books %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              {{ book.title }}
+              <span class="badge bg-primary">Added</span>
+            </li>
+          {% empty %}
+            <li class="list-group-item text-muted">No books added yet.</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+
+    <!-- Borrowed Books -->
+    <div class="col-lg-6 mb-4">
+      <div class="card h-100 shadow-sm border-0 rounded-3">
+        <div class="card-header bg-dark text-white">
+          <h5 class="mb-0">📖 Your Borrowed Books</h5>
+        </div>
+        <ul class="list-group list-group-flush">
+          {% for transaction in borrowed_books %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              {{ transaction.book.title }}
+              <span class="badge bg-success">Borrowed by {{ transaction.user.username }}</span>
+            </li>
+          {% empty %}
+            <li class="list-group-item text-muted">No transactions found.</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+

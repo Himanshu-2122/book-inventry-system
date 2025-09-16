@@ -1,17 +1,41 @@
 {% include "base.html" %}
 {% block content %}
-<h2 class="mb-4">Add New Book</h2>
-<form method="POST" class="row g-3">
-    {% csrf_token %}
-    <div class="col-md-6"><input type="text" name="title" class="form-control" placeholder="Title" required></div>
-    <div class="col-md-6"><input type="text" name="author" class="form-control" placeholder="Author" required></div>
-    <div class="col-md-4"><input type="text" name="category" class="form-control" placeholder="Category" required></div>
-    <div class="col-md-2"><input type="number" name="pages" class="form-control" placeholder="Pages" required></div>
-    <div class="col-md-2"><input type="number" name="total_copies" class="form-control" placeholder="Total Copies" required></div>
-    <div class="col-12">
-        <button type="submit" class="btn btn-success">Add Book</button>
-        <a href="{% url 'book_list' %}" class="btn btn-secondary">Back</a>
+<div class="container my-5">
+    <div class="card shadow-lg border-0 rounded-3">
+        <div class="card-header bg-primary text-white text-center py-3">
+            <h3 class="mb-0">📖 Add New Book</h3>
+        </div>
+        <div class="card-body p-4">
+            <form method="POST" class="row g-3">
+                {% csrf_token %}
+                <div class="col-md-6">
+                    <label class="form-label fw-semibold">Title</label>
+                    <input type="text" name="title" class="form-control" placeholder="Enter book title" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-semibold">Author</label>
+                    <input type="text" name="author" class="form-control" placeholder="Enter author name" required>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label fw-semibold">Category</label>
+                    <input type="text" name="category" class="form-control" placeholder="E.g. Fiction, Science" required>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label fw-semibold">Pages</label>
+                    <input type="number" name="pages" class="form-control" placeholder="100+" required>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label fw-semibold">Total Copies</label>
+                    <input type="number" name="total_copies" class="form-control" placeholder="5+" required>
+                </div>
+                <div class="col-12 text-end mt-3">
+                    <button type="submit" class="btn btn-success px-4 me-2 shadow-sm">➕ Add Book</button>
+                    <a href="{% url 'book_list' %}" class="btn btn-outline-secondary px-4">⬅ Back</a>
+                </div>
+            </form>
+        </div>
     </div>
-</form>
+</div>
+
 {% endblock %}
-{% include "base.html" %}
+

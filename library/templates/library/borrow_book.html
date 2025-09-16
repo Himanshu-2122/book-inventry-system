@@ -1,14 +1,37 @@
-{% {% include "base.html" %}%}
+{% include "base.html" %}
 {% block content %}
-<h2 class="mb-4">Borrow Book: {{ book.title }}</h2>
-<p>Available Copies: {{ book.available_copies }}</p>
-<form method="POST" class="row g-3">
-    {% csrf_token %}
-    <div class="col-md-3"><input type="number" name="due_days" class="form-control" placeholder="Due Days" value="7" min="1"></div>
-    <div class="col-md-9">
-        <button type="submit" class="btn btn-primary">Borrow</button>
-        <a href="{% url 'book_list' %}" class="btn btn-secondary">Back</a>
+<div class="container my-5">
+    <div class="card shadow-lg border-0 rounded-3">
+        <div class="card-header bg-primary text-white text-center py-3">
+            <h3 class="mb-0">📚 Borrow Book</h3>
+        </div>
+        <div class="card-body p-4">
+            <h4 class="mb-3 text-secondary">{{ book.title }}</h4>
+            <p class="mb-4">
+                <span class="fw-bold">Available Copies:</span> 
+                <span class="badge bg-success fs-6">{{ book.available_copies }}</span>
+            </p>
+
+            <form method="POST" class="row g-3 align-items-end">
+                {% csrf_token %}
+                <div class="col-md-3">
+                    <label class="form-label fw-semibold">Due Days</label>
+                    <input type="number" name="due_days" class="form-control" 
+                           placeholder="Enter days" value="7" min="1" required>
+                </div>
+                <div class="col-md-9 text-end">
+                    <button type="submit" class="btn btn-primary px-4 me-2 shadow-sm">
+                        ✅ Borrow
+                    </button>
+                    <a href="{% url 'book_list' %}" class="btn btn-outline-secondary px-4">
+                        ⬅ Back
+                    </a>
+                </div>
+            </form>
+        </div>
     </div>
+</div>
+
 </form>
 {% endblock %}
-{% {% include "base.html" %}%}
+
