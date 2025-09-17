@@ -214,9 +214,7 @@ def my_borrowed_books(request):
 @login_required
 def profile(request):
     user = request.user  # current logged-in user
-    print(user.username)  # e.g., 'himanshu'
-    print(user.email)     # e.g., 'abc@gmail.com'
-    print(user.id)        # user’s primary key
+        # user’s primary key
     my_added_books = Book.objects.filter(added_by_id=user.id)
     your_borrowed_books = Transaction.objects.filter(book__added_by_id=user.id, status='borrowed')
     return render(request, 'library/profile.html', {'user': user , 'my_books': my_added_books , 'borrowed_books': your_borrowed_books})

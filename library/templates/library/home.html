@@ -7,67 +7,220 @@
   <title>Book Library</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
   <link rel="stylesheet" href="{% static 'css/style.css' %}"/>
+  <style>
+    /* Custom Styles for better aesthetics and responsiveness */
+    body {
+      font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+    }
+    .navbar {
+      background-color: #ffffff; /* White background for navbar */
+      box-shadow: 0 2px 4px rgba(0,0,0,.08);
+    }
+    .navbar-brand {
+      font-weight: 700;
+      color: #007bff !important; /* Primary color for brand */
+    }
+    .nav-link {
+      color: #555 !important;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+    .nav-link:hover {
+      color: #007bff !important;
+    }
+
+    /* Hero Section Styling */
+    .hero-section {
+      background: linear-gradient(135deg, #e0f2f7 0%, #ffffff 100%); /* Light gradient background */
+      padding-top: 8rem;
+      padding-bottom: 8rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-section h1 {
+      font-size: 3.8rem; /* Larger font size for heading */
+      line-height: 1.1;
+      font-weight: 800;
+      color: #212529;
+    }
+    .hero-section h1 .text-primary {
+      color: #007bff !important;
+    }
+    .hero-section p.lead {
+      font-size: 1.3rem;
+      color: #6c757d;
+    }
+    .hero-section .btn-primary {
+      background-color: #007bff;
+      border-color: #007bff;
+      padding: .8rem 2.5rem;
+      font-size: 1.1rem;
+      border-radius: .5rem;
+      transition: all 0.3s ease;
+    }
+    .hero-section .btn-primary:hover {
+      background-color: #0056b3;
+      border-color: #0056b3;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,123,255,.2);
+    }
+    .hero-section img {
+      border-radius: 1rem;
+      box-shadow: 0 10px 25px rgba(0,0,0,.15);
+      transition: transform 0.5s ease;
+    }
+    .hero-section img:hover {
+      transform: scale(1.02);
+    }
+
+    /* Features Section Styling */
+    .features-section {
+      padding: 6rem 0;
+      background-color: #f8f9fa; /* Light grey background */
+    }
+    .features-section .card-feature {
+      background-color: #ffffff;
+      border: none;
+      border-radius: 1rem;
+      padding: 2.5rem;
+      box-shadow: 0 5px 15px rgba(0,0,0,.08);
+      transition: all 0.3s ease;
+      height: 100%; /* Ensure cards are same height */
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+    .features-section .card-feature:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0,0,0,.12);
+    }
+    .features-section .card-feature img {
+      margin-bottom: 1.5rem;
+      filter: drop-shadow(0 3px 6px rgba(0,0,0,.1)); /* Soft shadow for icons */
+    }
+    .features-section .card-feature h4 {
+      font-weight: 700;
+      color: #343a40;
+      margin-bottom: 1rem;
+    }
+    .features-section .card-feature p {
+      color: #6c757d;
+      font-size: 1.05rem;
+    }
+
+    /* Footer Styling */
+    .footer {
+      background-color: #212529; /* Darker footer */
+      color: #f8f9fa;
+      padding: 3rem 0;
+    }
+    .footer p, .footer small {
+      color: #adb5bd;
+    }
+    .footer small {
+      font-size: 0.9rem;
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 991.98px) {
+      .hero-section {
+        padding-top: 6rem;
+        padding-bottom: 6rem;
+      }
+      .hero-section h1 {
+        font-size: 3rem;
+      }
+      .hero-section p.lead {
+        font-size: 1.15rem;
+      }
+      .hero-section .text-lg-start {
+        text-align: center !important;
+      }
+    }
+    @media (max-width: 767.98px) {
+      .hero-section {
+        padding-top: 4rem;
+        padding-bottom: 4rem;
+      }
+      .hero-section h1 {
+        font-size: 2.5rem;
+      }
+      .hero-section p.lead {
+        font-size: 1rem;
+      }
+      .features-section {
+        padding: 4rem 0;
+      }
+      .features-section .card-feature {
+        padding: 2rem;
+      }
+    }
+  </style>
 </head>
 <body>
 
   {% include 'library/navbar.html' %}
 
-<!-- Hero Section -->
-<section class="text-center my-5">
+<section class="hero-section text-center">
   <div class="container">
     <div class="row align-items-center">
-      <div class="col-lg-6 text-lg-start text-center mb-4 mb-lg-0">
+      <div class="col-lg-6 text-lg-start text-center mb-5 mb-lg-0">
         <h1 class="display-3 fw-bold">
           The best place <br>
           <span class="text-primary">for your reading needs</span>
         </h1>
-        <p class="lead text-muted mt-3">
+        <p class="lead text-muted mt-4">
           Explore thousands of books, borrow instantly, and keep your knowledge growing.
         </p>
-        <a href="{% url 'book_list' %}" class="btn btn-primary btn-lg mt-3 px-4">📚 Browse Books</a>
+        <a href="{% url 'book_list' %}" class="btn btn-primary btn-lg mt-4 px-5">📚 Browse Books</a>
       </div>
       <div class="col-lg-6">
-        <img src="https://images.pexels.com/photos/1370295/pexels-photo-1370295.jpeg?auto=compress&cs=tinysrgb&w=800" 
-             class="img-fluid rounded shadow" alt="Books">
+        <img src="{% static 'css/img2.png' %}" alt="Books" class="img-fluid rounded shadow-lg">
       </div>
     </div>
   </div>
 </section>
 
-<!-- Features -->
-<section class="py-5 bg-light">
+<section class="features-section py-5">
   <div class="container">
-    <div class="row text-center">
-      <div class="col-lg-4 mb-4">
-        <div class="p-4 border rounded shadow-sm h-100">
-          <img width="60" src="https://img.icons8.com/ios-filled/50/book.png" alt="Books" class="mb-3">
+    <div class="text-center mb-5">
+      <h2 class="display-5 fw-bold text-dark">Why Choose Us?</h2>
+      <p class="lead text-muted">Discover the unique benefits of our e-library.</p>
+    </div>
+    <div class="row text-center justify-content-center">
+      <div class="col-lg-4 col-md-6 mb-4">
+        <div class="card-feature">
+          <img width="70" src="https://img.icons8.com/ios-filled/100/book.png" alt="Books" class="mb-3">
           <h4 class="fw-bold">Wide Collection</h4>
-          <p class="text-muted">Access a variety of books across genres and categories.</p>
+          <p class="text-muted">Access a vast and diverse library of books across countless genres and categories.</p>
         </div>
       </div>
-      <div class="col-lg-4 mb-4">
-        <div class="p-4 border rounded shadow-sm h-100">
-          <img width="70" src="https://img.icons8.com/external-victoruler-solid-victoruler/64/external-read-education-and-school-victoruler-solid-victoruler.png" alt="Read" class="mb-3">
-          <h4 class="fw-bold">Read Anytime</h4>
-          <p class="text-muted">Borrow and enjoy reading at your convenience, online or offline.</p>
+      <div class="col-lg-4 col-md-6 mb-4">
+        <div class="card-feature">
+          <img width="80" src="https://img.icons8.com/external-victoruler-solid-victoruler/100/external-read-education-and-school-victoruler-solid-victoruler.png" alt="Read" class="mb-3">
+          <h4 class="fw-bold">Read Anytime, Anywhere</h4>
+          <p class="text-muted">Enjoy seamless reading experiences on any device, whether you're online or offline.</p>
         </div>
       </div>
-      <div class="col-lg-4 mb-4">
-        <div class="p-4 border rounded shadow-sm h-100">
-          <img width="70" src="https://img.icons8.com/pastel-glyph/64/download--v1.png" alt="Download" class="mb-3">
-          <h4 class="fw-bold">Download Easily</h4>
-          <p class="text-muted">Download your favorite titles and keep them for offline reading.</p>
+      <div class="col-lg-4 col-md-6 mb-4">
+        <div class="card-feature">
+          <img width="80" src="https://img.icons8.com/pastel-glyph/100/download--v1.png" alt="Download" class="mb-3">
+          <h4 class="fw-bold">Effortless Downloads</h4>
+          <p class="text-muted">Easily download your favorite titles to keep and read at your leisure without internet.</p>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- Footer -->
-<footer class="text-center py-4 bg-dark text-white mt-5">
+<footer class="footer text-center mt-5">
   <div class="container">
     <p class="mb-1">© 2025 E-Library. All rights reserved.</p>
-    <small class="text-muted">Made with ❤️ using Django & Bootstrap</small>
+    <small class="text-muted">Crafted with ❤️ using Django & Bootstrap</small>
   </div>
 </footer>
 

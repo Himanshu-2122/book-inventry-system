@@ -1,59 +1,192 @@
 {% include "base.html" %}
-{% block content %}
-<div class="container mt-5">
-  <h2 class="mb-4 text-center">👤 User Profile</h2>
+{% load static %}
 
-  <!-- Profile Card -->
-  <div class="card shadow-lg border-0 rounded-3">
+{% block content %}
+<style>
+  /* Custom styles for the User Profile page */
+  body {
+    background-color: #f8f9fa; /* Light background for the whole page */
+  }
+  .profile-container {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+  .profile-card {
+    background: #ffffff;
+    border-radius: 15px; /* More rounded corners */
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1); /* Stronger, softer shadow */
+    padding: 2.5rem;
+    margin-bottom: 2.5rem;
+    border: none;
+  }
+  .profile-card h4 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #343a40;
+  }
+  .profile-card .text-primary {
+    color: #007bff !important;
+  }
+  .profile-card p {
+    font-size: 1.1rem;
+    color: #555;
+  }
+  .profile-card hr {
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    border-top: 1px solid rgba(0,0,0,.08);
+  }
+
+  /* Section Cards for Books */
+  .book-section-card {
+    border-radius: 15px; /* Match profile card rounding */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.06); /* Lighter shadow for book sections */
+    border: none;
+    overflow: hidden; /* Ensures rounded corners apply to content */
+  }
+  .book-section-card .card-header {
+    background: linear-gradient(45deg, #343a40, #495057); /* Darker, gradient header */
+    color: #ffffff;
+    padding: 1.2rem 1.5rem;
+    font-size: 1.3rem;
+    font-weight: 600;
+    border-bottom: none;
+    display: flex; /* For icon alignment */
+    align-items: center;
+  }
+  .book-section-card .card-header i {
+    margin-right: 10px;
+    font-size: 1.5rem; /* Larger icon in header */
+  }
+  .list-group-item {
+    font-size: 1.05rem;
+    padding: 1rem 1.5rem;
+    border-left: none;
+    border-right: none;
+  }
+  .list-group-item:last-child {
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+  }
+  .list-group-item:first-child {
+    border-top: none;
+  }
+  .badge {
+    padding: .6em .9em;
+    font-size: .85em;
+    border-radius: .5rem;
+  }
+  .badge.bg-primary {
+    background-color: #007bff !important;
+  }
+  .badge.bg-success {
+    background-color: #28a745 !important;
+  }
+  .list-group-item.text-muted {
+    font-style: italic;
+    color: #888 !important;
+    padding: 1.5rem;
+  }
+  .list-group-flush .list-group-item {
+    border-width: 0 0 1px;
+  }
+
+  /* Responsive Adjustments */
+  @media (max-width: 767.98px) {
+    .profile-card {
+      padding: 1.5rem;
+    }
+    .profile-card h4 {
+      font-size: 1.6rem;
+    }
+    .profile-card p {
+      font-size: 1rem;
+    }
+    .book-section-card .card-header {
+      font-size: 1.1rem;
+      padding: 1rem;
+    }
+    .book-section-card .card-header i {
+      font-size: 1.2rem;
+    }
+    .list-group-item {
+      padding: 0.8rem 1rem;
+      font-size: 0.95rem;
+    }
+  }
+</style>
+
+<div class="container profile-container">
+  <h2 class="mb-5 text-center display-4 fw-bold text-dark">
+    <i class="fas fa-user-circle text-primary me-2"></i> User Profile
+  </h2>
+
+  <div class="profile-card mx-auto" style="max-width: 700px;">
     <div class="card-body text-center">
-      <h4 class="card-title mb-3">
-        Welcome, <span class="text-primary fw-bold">{{ user.first_name }} {{ user.last_name }}</span>
+      <h4 class="card-title mb-4">
+        Welcome, <span class="text-primary fw-bold">{{ user.first_name|default:"Dear" }} {{ user.last_name|default:"User" }}</span>!
       </h4>
-      <p class="card-text mb-1"><strong>Email:</strong> {{ user.username }}</p>
+      <p class="card-text mb-2">
+        <i class="fas fa-envelope me-2 text-secondary"></i> <strong>Email:</strong> {{ user.username }}
+      </p>
+      {% if user.first_name and user.last_name %}
+      <p class="card-text">
+        <i class="fas fa-id-badge me-2 text-secondary"></i> <strong>Full Name:</strong> {{ user.first_name }} {{ user.last_name }}
+      </p>
+      {% endif %}
       <hr>
+  
+      
     </div>
   </div>
 
-  <!-- Books Section -->
-  <div class="row mt-4">
-    <!-- My Added Books -->
+  <div class="row mt-5">
     <div class="col-lg-6 mb-4">
-      <div class="card h-100 shadow-sm border-0 rounded-3">
-        <div class="card-header bg-dark text-white">
-          <h5 class="mb-0">📚 My Added Books</h5>
+      <div class="book-section-card h-100">
+        <div class="card-header">
+          <i class="fas fa-plus-circle"></i> My Added Books
         </div>
         <ul class="list-group list-group-flush">
           {% for book in my_books %}
             <li class="list-group-item d-flex justify-content-between align-items-center">
-              {{ book.title }}
+              <div>
+                <i class="fas fa-book-open me-2 text-info"></i> {{ book.title }}
+              </div>
               <span class="badge bg-primary">Added</span>
             </li>
           {% empty %}
-            <li class="list-group-item text-muted">No books added yet.</li>
+            <li class="list-group-item text-muted">
+              <i class="fas fa-info-circle me-2"></i> No books added by you yet.
+            </li>
           {% endfor %}
         </ul>
       </div>
     </div>
 
-    <!-- Borrowed Books -->
     <div class="col-lg-6 mb-4">
-      <div class="card h-100 shadow-sm border-0 rounded-3">
-        <div class="card-header bg-dark text-white">
-          <h5 class="mb-0">📖 Your Borrowed Books</h5>
+      <div class="book-section-card h-100">
+        <div class="card-header">
+          <i class="fas fa-book-reader"></i> Your Borrowed Books
         </div>
         <ul class="list-group list-group-flush">
           {% for transaction in borrowed_books %}
             <li class="list-group-item d-flex justify-content-between align-items-center">
-              {{ transaction.book.title }}
-              <span class="badge bg-success">Borrowed by {{ transaction.user.username }}</span>
+              <div>
+                <i class="fas fa-bookmark me-2 text-success"></i> {{ transaction.book.title }}
+                <small class="text-muted ms-2">(Borrowed: {{ transaction.borrow_date|date:"M d, Y" }})</small>
+              </div>
+              <span class="badge bg-success">Borrowed</span>
             </li>
           {% empty %}
-            <li class="list-group-item text-muted">No transactions found.</li>
+            <li class="list-group-item text-muted">
+              <i class="fas fa-info-circle me-2"></i> You haven't borrowed any books yet.
+            </li>
           {% endfor %}
         </ul>
       </div>
     </div>
   </div>
 </div>
-{% endblock %}
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+{% endblock %}

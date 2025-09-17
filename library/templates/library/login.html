@@ -1,60 +1,161 @@
 {% include 'base.html' %}
+{% load static %}
 
-    <h2 class="text-center mt-5">Login</h2>
-    <form method="POST" action="{% url 'login' %}" class="register--form">
-        {% csrf_token %}
-          <!-- Section: Design Block -->
-            <!-- Jumbotron -->
-            <div class="px-4 py-5 px-md-5 text-center text-lg-start" style="background-color: hsl(0, 0%, 96%)">
-              <div class="container">
-                <div class="row gx-lg-5 align-items-center">
-                  <div class="col-lg-6 mb-5 mb-lg-0">
-                    <h1 class="my-5 display-3 fw-bold ls-tight">
-                      The best place <br />
-                      <span class="text-primary">for your reading needs</span>
-                    </h1>
-                    <!-- <p style="color: hsl(217, 10%, 50.8%)">
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Eveniet, itaque accusantium odio, soluta, corrupti aliquam
-                      quibusdam tempora at cupiditate quis eum maiores libero
-                      veritatis? Dicta facilis sint aliquid ipsum atque?
-                    </p> -->
-                  </div>
+{% block content %}
+<style>
+  /* Custom styles for the Login page */
+  body {
+    background-color: #f0f2f5; /* A slightly darker light grey background */
+    font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+  }
 
-                  <div class="col-lg-6 mb-5 mb-lg-0">
-                    <div class="card">
-                      <div class="card-body py-5 px-md-5">
-                        <form>
-                          <!-- 2 column grid layout with text inputs for the first and last names -->
-                          
+  /* Main container for the form (Jumbotron replacement) */
+  .login-section-bg {
+    background: linear-gradient(135deg, #f0f2f5 0%, #e0e5ec 100%); /* Soft gradient */
+    min-height: 100vh; /* Ensure it takes full viewport height */
+    display: flex; /* Use flex to center content vertically */
+    align-items: center; /* Center content vertically */
+    padding: 3rem 0; /* Add some padding top/bottom */
+  }
 
-                          <!-- Email input -->
-                          <div class="form-outline mb-4">
-                            <input type="email" id="form3Example3" class="form-control" name="email"/>
-                            <label class="form-label" for="form3Example3" >Email address</label>
-                          </div>
+  .login-card {
+    background: #ffffff;
+    border-radius: 1.5rem; /* More rounded corners */
+    box-shadow: 0 15px 40px rgba(0,0,0,0.1); /* Deeper, softer shadow */
+    overflow: hidden; /* Ensures shadows and borders behave correctly */
+    transition: transform 0.3s ease-in-out;
+  }
 
-                          <!-- Password input -->
-                          <div class="form-outline mb-4">
-                            <input type="password" id="form3Example4" class="form-control" name="password"/>
-                            <label class="form-label" for="form3Example4">Password</label>
-                          </div>
+  .login-card:hover {
+    transform: translateY(-5px); /* Subtle lift on hover */
+  }
 
-                          <!-- Submit button -->
-                          <button type="submit" class="btn btn-primary btn-block mb-4">
-                            Log In
-                          </button>
-                          <p>Don't  have an account? <a href="{% url 'register' %}">Register</a></p>
-                          </div>
-                        </form>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+  .login-card-body {
+    padding: 3.5rem 3rem; /* Generous padding inside the card */
+  }
+
+  h1.display-3 {
+    font-size: 3.5rem; /* Adjusted font size for title */
+    font-weight: 800;
+    color: #2c3e50; /* Darker text for heading */
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+  }
+
+  h1.display-3 .text-primary {
+    color: #007bff !important; /* Bootstrap primary blue */
+  }
+
+  .form-label {
+    font-weight: 500;
+    color: #555;
+  }
+
+  .form-control {
+    border-radius: 0.75rem; /* Rounded input fields */
+    padding: 0.75rem 1rem;
+    border: 1px solid #ced4da;
+    transition: all 0.3s ease;
+  }
+
+  .form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25);
+  }
+
+  .btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+    padding: 0.8rem 2.5rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 0.75rem;
+    transition: all 0.3s ease;
+  }
+
+  .btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+    transform: translateY(-2px); /* Subtle lift on hover */
+    box-shadow: 0 4px 10px rgba(0,123,255,.25);
+  }
+
+  p a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  p a:hover {
+    text-decoration: underline;
+    color: #0056b3;
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 991.98px) {
+    h1.display-3 {
+      font-size: 2.8rem;
+      text-align: center;
+    }
+    .login-section-bg {
+      padding: 2rem 0;
+    }
+    .col-lg-6.mb-5.mb-lg-0 {
+      margin-bottom: 2rem !important; /* Adjust margin for mobile */
+    }
+  }
+
+  @media (max-width: 767.98px) {
+    h1.display-3 {
+      font-size: 2.2rem;
+    }
+    .login-card-body {
+      padding: 2.5rem 1.5rem;
+    }
+    .btn-primary {
+      width: 100%; /* Full width button on small screens */
+    }
+  }
+</style>
+
+<div class="login-section-bg px-4 py-5 px-md-5">
+  <div class="container">
+    <div class="row gx-lg-5 align-items-center justify-content-center">
+      <div class="col-lg-6 text-center text-lg-start mb-5 mb-lg-0">
+        <h1 class="my-5 display-3 fw-bold ls-tight">
+          The best place <br />
+          <span class="text-primary">for your reading needs</span>
+        </h1>
+        </div>
+
+      <div class="col-lg-5 mb-5 mb-lg-0">
+        <div class="card login-card">
+          <div class="card-body login-card-body py-5 px-md-5">
+            <h2 class="text-center mb-4 text-dark">Log In to Your Account</h2>
+            <form method="POST" action="{% url 'login' %}">
+              {% csrf_token %}
+              <div class="form-outline mb-4">
+                <input type="email" id="form3Example3" class="form-control" name="email" required />
+                <label class="form-label" for="form3Example3">Email address</label>
               </div>
-            </div>
-            <!-- Jumbotron -->
 
-<!-- Section: Design Block -->
-        </form>
+              <div class="form-outline mb-4">
+                <input type="password" id="form3Example4" class="form-control" name="password" required />
+                <label class="form-label" for="form3Example4">Password</label>
+              </div>
 
+              <button type="submit" class="btn btn-primary btn-block mb-4 w-100">
+                Log In
+              </button>
+              <p class="text-center mt-3">Don't have an account? <a href="{% url 'register' %}">Register</a></p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

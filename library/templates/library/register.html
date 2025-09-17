@@ -1,76 +1,193 @@
 {% include 'base.html' %}
+{% load static %}
 
-    <h2 class="text-center mt-5">Register</h2>
-    <form method="POST" action="{% url 'register' %}" class="register--form">
-        {% csrf_token %}
-          <!-- Section: Design Block -->
-            <!-- Jumbotron -->
-            <div class="px-4 py-5 px-md-5 text-center text-lg-start" style="background-color: hsl(0, 0%, 96%)">
-              <div class="container">
-                <div class="row gx-lg-5 align-items-center">
-                  <div class="col-lg-6 mb-5 mb-lg-0">
-                    <h1 class="my-5 display-3 fw-bold ls-tight">
-                      The best place <br />
-                      <span class="text-primary">for your reading needs</span>
-                    </h1>
-                    <!-- <p style="color: hsl(217, 10%, 50.8%)">
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Eveniet, itaque accusantium odio, soluta, corrupti aliquam
-                      quibusdam tempora at cupiditate quis eum maiores libero
-                      veritatis? Dicta facilis sint aliquid ipsum atque?
-                    </p> -->
-                  </div>
+{% block content %}
+<style>
+  /* Custom styles for the Register page */
+  body {
+    background-color: #f0f2f5; /* A slightly darker light grey background */
+    font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+  }
 
-                  <div class="col-lg-6 mb-5 mb-lg-0">
-                    <div class="card">
-                      <div class="card-body py-5 px-md-5">
-                        <form>
-                          <!-- 2 column grid layout with text inputs for the first and last names -->
-                          <!-- First Name and Last Name -->
-                          <div class="container">
-                          <div class="row">
-                          <div class="col-lg-6 form-outline mb-4">
-                            <input type="text" id="form3Example3" class="form-control" name="first--name"/>
-                            <label class="form-label" for="form3Example3" >First Name</label>
-                          </div>
-                           <div class="col-lg-6 form-outline mb-4">
-                            <input type="text" id="form3Example3" class="form-control" name="last--name"/>
-                            <label class="form-label" for="form3Example3" >Last Name</label>
-                          </div>
-                          </div>
-                          </div>
+  /* Main container for the form (Jumbotron replacement) */
+  .register-section-bg {
+    background: linear-gradient(135deg, #e6f2ff 0%, #ffffff 100%); /* Softer, inviting gradient */
+    min-height: 100vh; /* Ensure it takes full viewport height */
+    display: flex; /* Use flex to center content vertically */
+    align-items: center; /* Center content vertically */
+    padding: 3rem 0; /* Add some padding top/bottom */
+  }
 
+  .register-card {
+    background: #ffffff;
+    border-radius: 1.5rem; /* More rounded corners */
+    box-shadow: 0 15px 40px rgba(0,0,0,0.1); /* Deeper, softer shadow */
+    overflow: hidden; /* Ensures shadows and borders behave correctly */
+    transition: transform 0.3s ease-in-out;
+  }
 
+  .register-card:hover {
+    transform: translateY(-5px); /* Subtle lift on hover */
+  }
 
-                          <!-- Email input -->
-                          <div class="form-outline mb-4">
-                            <input type="email" id="form3Example3" class="form-control" name="email"/>
-                            <label class="form-label" for="form3Example3" >Email address</label>
-                          </div>
+  .register-card-body {
+    padding: 3.5rem 3rem; /* Generous padding inside the card */
+  }
 
-                          <!-- Password input -->
-                          <div class="form-outline mb-4">
-                            <input type="password" id="form3Example4" class="form-control" name="password"/>
-                            <label class="form-label" for="form3Example4">Password</label>
-                          </div>
+  h1.display-3 {
+    font-size: 3.5rem; /* Adjusted font size for title */
+    font-weight: 800;
+    color: #2c3e50; /* Darker text for heading */
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+  }
 
-                          <!-- Submit button -->
-                          <button type="submit" class="btn btn-primary btn-block mb-4">
-                            Sign up
-                          </button>
-                          <p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
-                          </div>
-                          
-                        </form>
-                        
-                      </div>
-                    </div>
-                  </div>
+  h1.display-3 .text-primary {
+    color: #007bff !important; /* Bootstrap primary blue */
+  }
+
+  .form-label {
+    font-weight: 500;
+    color: #555;
+  }
+
+  .form-control {
+    border-radius: 0.75rem; /* Rounded input fields */
+    padding: 0.75rem 1rem;
+    border: 1px solid #ced4da;
+    transition: all 0.3s ease;
+  }
+
+  .form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25);
+  }
+
+  .btn-primary {
+    background-color: #28a745; /* Green for Sign up to differentiate from Login */
+    border-color: #28a745;
+    padding: 0.8rem 2.5rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 0.75rem;
+    transition: all 0.3s ease;
+  }
+
+  .btn-primary:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+    transform: translateY(-2px); /* Subtle lift on hover */
+    box-shadow: 0 4px 10px rgba(40, 167, 69, 0.25); /* Green shadow for green button */
+  }
+
+  p a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  p a:hover {
+    text-decoration: underline;
+    color: #0056b3;
+  }
+  
+  /* Adjusted margin for the first/last name row's container */
+  .name-inputs-container {
+    margin-top: 1rem; /* Add some space above first name row */
+    margin-bottom: 1rem; /* Add some space below first name row */
+  }
+  /* Ensure form inputs are full width on small screens when in a column */
+  .col-lg-6 .form-outline {
+      width: 100%; /* Make inputs take full column width */
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 991.98px) {
+    h1.display-3 {
+      font-size: 2.8rem;
+      text-align: center;
+    }
+    .register-section-bg {
+      padding: 2rem 0;
+    }
+    .col-lg-6.mb-5.mb-lg-0 {
+      margin-bottom: 2rem !important; /* Adjust margin for mobile */
+    }
+    .register-card-body {
+        padding-top: 2.5rem; /* Less padding on smaller screens */
+        padding-bottom: 2.5rem;
+    }
+  }
+
+  @media (max-width: 767.98px) {
+    h1.display-3 {
+      font-size: 2.2rem;
+    }
+    .register-card-body {
+      padding: 2.5rem 1.5rem;
+    }
+    .btn-primary {
+      width: 100%; /* Full width button on small screens */
+    }
+    /* Ensure name fields stack vertically on very small screens */
+    .name-inputs-container .col-lg-6 {
+        flex: 0 0 100%; /* Each column takes full width */
+        max-width: 100%;
+    }
+  }
+</style>
+
+<div class="register-section-bg px-4 py-5 px-md-5">
+  <div class="container">
+    <div class="row gx-lg-5 align-items-center justify-content-center">
+      <div class="col-lg-6 text-center text-lg-start mb-5 mb-lg-0">
+        <h1 class="my-5 display-3 fw-bold ls-tight">
+          The best place <br />
+          <span class="text-primary">for your reading needs</span>
+        </h1>
+      </div>
+
+      <div class="col-lg-5 mb-5 mb-lg-0">
+        <div class="card register-card">
+          <div class="card-body register-card-body py-5 px-md-5">
+            <h2 class="text-center mb-4 text-dark">Create Your Account</h2>
+            <form method="POST" action="{% url 'register' %}">
+              {% csrf_token %}
+              
+              <div class="row name-inputs-container">
+                <div class="col-lg-6 form-outline mb-4">
+                  <input type="text" id="id_first_name" class="form-control" name="first--name" required />
+                  <label class="form-label" for="id_first_name">First Name</label>
+                </div>
+                <div class="col-lg-6 form-outline mb-4">
+                  <input type="text" id="id_last_name" class="form-control" name="last--name" required />
+                  <label class="form-label" for="id_last_name">Last Name</label>
                 </div>
               </div>
-            </div>
-            <!-- Jumbotron -->
 
-<!-- Section: Design Block -->
-        </form>
+              <div class="form-outline mb-4">
+                <input type="email" id="id_email" class="form-control" name="email" required />
+                <label class="form-label" for="id_email">Email address</label>
+              </div>
 
+              <div class="form-outline mb-4">
+                <input type="password" id="id_password" class="form-control" name="password" required />
+                <label class="form-label" for="id_password">Password</label>
+              </div>
+
+              <button type="submit" class="btn btn-primary btn-block mb-4 w-100">
+                Sign up
+              </button>
+              <p class="text-center mt-3">Already have an account? <a href="{% url 'login' %}">Login</a></p>
+              
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
